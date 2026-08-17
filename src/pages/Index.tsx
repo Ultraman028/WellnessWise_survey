@@ -17,6 +17,7 @@ const SURVEY_RESPONSES_KEY = "wellnesswise_survey_responses";
 const Index = () => {
   const [currentPage, setCurrentPage] = useState<PageState>("landing");
   const [hasCompletedSurvey, setHasCompletedSurvey] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -48,6 +49,11 @@ const Index = () => {
   };
 
   const handleSurveyComplete = async (data: SurveyData) => {
+    // Guard against double-submits (e.g. someone double-clicking Submit,
+    // or clicking again while the first request is still in flight)
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     try {
       // Send the response to Firestore in real time
       await addDoc(collection(db, "survey_responses"), {
@@ -73,6 +79,8 @@ const Index = () => {
         description: "We couldn't reach the server, but your response was saved on this device. Please check your connection and try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -83,7 +91,7 @@ const Index = () => {
       case "intro":
         return <IntroPage onStart={handleIntroStart} onGoHome={handleGoHome} />;
       case "survey":
-        return <SurveyForm onComplete={handleSurveyComplete} onGoHome={handleGoHome} />;
+        return <SurveyForm onComplete={handleSurveyComplete} onGoHome={handleGoHome} isSubmitting={isSubmitting} />;
       case "thanks":
         return <ThankYouPage onGoHome={handleGoHome} />;
       default:
