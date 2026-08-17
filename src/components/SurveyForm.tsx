@@ -11,9 +11,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 interface SurveyFormProps {
   onComplete: (data: SurveyData) => void;
   onGoHome: () => void;
+  isSubmitting?: boolean;
 }
 
-const SurveyForm = ({ onComplete }: SurveyFormProps) => {
+const SurveyForm = ({ onComplete, isSubmitting = false }: SurveyFormProps) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [surveyData, setSurveyData] = useState<SurveyData>(initialSurveyData);
   const [error, setError] = useState("");
@@ -57,6 +58,7 @@ const SurveyForm = ({ onComplete }: SurveyFormProps) => {
   };
 
   const handleNext = () => {
+    if (isSubmitting) return; // ignore extra clicks while a submission is in flight
     if (!validateCurrentQuestion()) return;
     
     if (currentQuestion < totalQuestions - 1) {
@@ -286,9 +288,14 @@ const SurveyForm = ({ onComplete }: SurveyFormProps) => {
               variant="wellness"
               size="sm"
               onClick={handleNext}
+              disabled={isSubmitting}
               className="gap-1"
             >
-              {currentQuestion === totalQuestions - 1 ? "Submit" : "Next"}
+              {currentQuestion === totalQuestions - 1
+                ? isSubmitting
+                  ? "Submitting..."
+                  : "Submit"
+                : "Next"}
               {currentQuestion !== totalQuestions - 1 && <ChevronRight size={16} />}
             </Button>
           </div>
