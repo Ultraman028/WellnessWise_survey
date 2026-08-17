@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@layer base {
+  :root {
+    --background: 150 30% 95%;
+    --foreground: 160 30% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 160 30% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 30% 20%;
+
+    --primary: 160 45% 35%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 150 35% 88%;
+    --secondary-foreground: 160 30% 20%;
+
+    --muted: 150 25% 92%;
+    --muted-foreground: 160 20% 45%;
+
+    --accent: 150 40% 85%;
+    --accent-foreground: 160 30% 20%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 150 25% 85%;
+    --input: 150 25% 85%;
+    --ring: 160 45% 35%;
+
+    --radius: 0.75rem;
+
+    /* Custom wellness colors - fresh greens */
+    --wellness-teal: 160 45% 35%;
+    --wellness-sage: 150 35% 75%;
+    --wellness-sky: 150 35% 92%;
+    --wellness-mint: 150 30% 95%;
+    --wellness-deep: 160 40% 25%;
+    --wellness-warm: 150 25% 97%;
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(160 45% 35% / 0.15);
+    --shadow-card: 0 8px 30px -8px hsl(160 40% 25% / 0.1);
+    --shadow-glow: 0 0 40px hsl(160 45% 35% / 0.2);
+
+    /* Typography */
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Transitions */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --background: 200 40% 10%;
+    --foreground: 160 20% 95%;
+
+    --card: 200 35% 15%;
+    --card-foreground: 160 20% 95%;
+
+    --popover: 200 35% 15%;
+    --popover-foreground: 160 20% 95%;
+
+    --primary: 168 60% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 200 30% 25%;
+    --secondary-foreground: 160 20% 95%;
+
+    --muted: 200 30% 20%;
+    --muted-foreground: 160 15% 65%;
+
+    --accent: 168 40% 35%;
+    --accent-foreground: 160 20% 95%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 200 30% 25%;
+    --input: 200 30% 25%;
+    --ring: 168 60% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 3s ease-in-out infinite;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.6s ease-out forwards;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

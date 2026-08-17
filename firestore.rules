@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Public survey responses collection:
+    // - Anyone can CREATE a new response (submit the survey)
+    // - No one can READ, UPDATE, or DELETE from the client
+    //   (this keeps responses private and prevents tampering;
+    //   you view/export data from the Firebase Console or a
+    //   backend using an admin account instead)
+    match /survey_responses/{responseId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+
+    // Deny everything else by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
